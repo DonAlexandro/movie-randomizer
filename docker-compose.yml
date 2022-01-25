@@ -1,0 +1,29 @@
+version: '3'
+services:
+  frontend:
+    build: ./client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/client
+    container_name: 'movie-randomizer_frontend'
+    env_file:
+      - ./client/.env
+
+  backend:
+    build: ./server
+    ports:
+      - 5000:5000
+    volumes:
+      - ./server:/server
+    container_name: 'movie-randomizer_backend'
+    env_file:
+      - ./server/.env
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    container_name: 'movie-randomizer_redis'
