@@ -1,4 +1,4 @@
-import { Typography, notification } from 'antd';
+import { Typography } from 'antd';
 import Masonry from 'react-masonry-css';
 
 import { movieAPI } from '../api/movie-api';
@@ -6,6 +6,7 @@ import { MoviesEmpty } from './MoviesEmpty';
 import { MoviesItem } from './MoviesItem';
 import { pluralize } from '../utils';
 import { MoviesLoader } from './MoviesLoader';
+import { useError } from '../hooks/useError';
 
 import '../styles/MoviesList.scss';
 
@@ -13,6 +14,7 @@ const { Title } = Typography;
 
 export const MoviesList = () => {
   const { data, isError, error, isFetching } = movieAPI.endpoints.fetchMovie.useQueryState();
+  const { triggerError } = useError(error);
 
   const breakpointColumnsObj = {
     default: 4,
@@ -22,10 +24,7 @@ export const MoviesList = () => {
   };
 
   if (isError) {
-    notification.error({
-      message: 'Онамаєш, помилка...',
-      description: error.data
-    });
+    triggerError();
   }
 
   if (isFetching) {
