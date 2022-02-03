@@ -27,3 +27,8 @@ services:
     ports:
       - 6379:6379
     container_name: 'movie-randomizer_redis'
+    volumes:
+      - cache_data:/data
+
+volumes:
+  cache_data:

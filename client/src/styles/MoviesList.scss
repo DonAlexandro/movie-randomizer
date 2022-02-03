@@ -1,0 +1,36 @@
+.movie-title {
+  margin-top: 40px;
+  margin-bottom: 30px;
+
+  @media screen and (max-width: 500px) {
+    margin-bottom: 20px;
+  }
+
+  .movie-name {
+    margin-bottom: 0;
+    line-height: 1.2;
+
+    @media screen and (max-width: 500px) {
+      font-size: 32px;
+    }
+  }
+
+  h5.ant-typography {
+    margin-top: 0.6em;
+  }
+}
+
+.my-masonry-grid {
+  display: flex;
+  margin-left: -30px;
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: 30px;
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column > div {
+  margin-bottom: 30px;
+}
