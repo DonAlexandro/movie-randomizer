@@ -13,7 +13,7 @@ class ImdbService {
       return [];
     }
 
-    return { movies, title };
+    return { movies, title: title || searchString };
   }
 
   async getMovieInfo(id) {
