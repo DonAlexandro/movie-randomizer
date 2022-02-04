@@ -12,6 +12,13 @@ export const movieAPI = createApi({
         url: '/movie'
       }),
       providesTags: () => ['Movie']
+    }),
+    fetchFullMovieInfo: build.mutation({
+      query: (ids) => ({
+        url: '/fullMovieInfo',
+        method: 'POST',
+        body: ids
+      })
     })
   })
 });

@@ -11,6 +11,18 @@ class MovieController {
       next(error);
     }
   }
+
+  async getMovieFullInfo(req, res, next) {
+    try {
+      const movieIds = req.body;
+
+      const movieFullInfo = await MovieService.findFullMovieInfo(movieIds);
+
+      return SuccessResponse.call(res, movieFullInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new MovieController();

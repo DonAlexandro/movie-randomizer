@@ -2,6 +2,7 @@ const { Client } = require('@notionhq/client');
 const { getRandomNumberInRange } = require('../utils/functions');
 const RedisService = require('./RedisService');
 const ImdbService = require('./ImdbService');
+const DatabaseService = require('./DatabaseService');
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN
@@ -12,7 +13,7 @@ class MovieService {
     const movieDetails = await ImdbService.searchMovie(movie.to_do.text[0].plain_text);
     RedisService.createCache(movie.id, movieDetails);
 
-    return Object.assign(movieDetails, { dbID: movie.id });
+    return Object.assign(movieDetails, { notionId: movie.id });
   }
 
   async findOne() {
@@ -44,6 +45,28 @@ class MovieService {
     const movieDetails = await this.cacheMovieDetails(movie);
 
     return movieDetails;
+  }
+
+  async findFullMovieInfo({ imdbMovieId, notionMovieId }) {
+    const fullMovieFromCache = await RedisService.getCache(imdbMovieId);
+
+    if (fullMovieFromCache) {
+      return fullMovieFromCache;
+    }
+
+    const fullMovieFromDB = await DatabaseService.findMovieById(imdbMovieId);
+
+    if (fullMovieFromDB) {
+      RedisService.createCache(imdbMovieId, fullMovieFromDB);
+      return fullMovieFromDB;
+    }
+
+    const fullMovieAPI = await ImdbService.getFullMovieInfo(imdbMovieId);
+    const newFullMovieFromDB = await DatabaseService.saveMovie(fullMovieAPI, notionMovieId);
+
+    RedisService.createCache(imdbMovieId, newFullMovieFromDB);
+
+    return newFullMovieFromDB;
   }
 }
 
