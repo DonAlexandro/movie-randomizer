@@ -16,14 +16,18 @@ class ImdbService {
     return { movies, title: title || searchString };
   }
 
-  async getMovieInfo(id) {
+  async getFullMovieInfo(id) {
     const response = await axios(this.apiUrl + `/uk/API/Title/${this.token}/${id}`);
     const movie = response.data;
 
     return {
-      year: movie.year,
+      imdb_movie_id: id,
+      title: movie.title,
+      year: parseInt(movie.year),
       description: movie.plotLocal || movie.plot,
-      genres: movie.genres,
+      genres: movie.genreList.map(({ value }) => ({
+        name: value
+      })),
       rating: movie.imDbRating
     };
   }

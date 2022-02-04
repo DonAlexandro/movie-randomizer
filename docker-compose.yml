@@ -30,5 +30,16 @@ services:
     volumes:
       - cache_data:/data
 
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    container_name: 'movie-randomizer_postgres'
+    volumes:
+      - movies_data:/var/lib/postgresql/data
+    env_file:
+      - ./server/.env
+
 volumes:
   cache_data:
+  movies_data:
