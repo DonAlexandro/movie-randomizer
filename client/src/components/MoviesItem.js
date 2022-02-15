@@ -6,7 +6,7 @@ import { useButtonDebounce } from '../hooks/useDebounce';
 
 const { Title } = Typography;
 
-export const MoviesItem = ({ movie, notionId, fetchFullMovieInfo, isLoading, openModal }) => {
+export const MoviesItem = ({ movie, notionId, fetchFullMovieInfo, isLoading, openModal, openRatingModal }) => {
   const handleFetchFullMovieInfo = useButtonDebounce(() => {
     fetchFullMovieInfo({ imdbMovieId: movie.id, notionMovieId: notionId });
     openModal();
@@ -15,7 +15,10 @@ export const MoviesItem = ({ movie, notionId, fetchFullMovieInfo, isLoading, ope
   return (
     <Spin spinning={isLoading} tip="Завантажую детальнішу інформацію...">
       <Card
-        actions={[<CheckCircleOutlined />, <InfoCircleOutlined onClick={handleFetchFullMovieInfo} />]}
+        actions={[
+          <CheckCircleOutlined onClick={openRatingModal} />,
+          <InfoCircleOutlined onClick={handleFetchFullMovieInfo} />
+        ]}
         cover={<LazyLoadImage onClick={handleFetchFullMovieInfo} alt={movie.title} src={movie.image} />}
         title={
           <Title onClick={handleFetchFullMovieInfo} level={4}>

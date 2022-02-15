@@ -1,16 +1,20 @@
 class ErrorResponse extends Error {
   status;
-  message;
+  errors;
 
-  constructor(status, message) {
+  constructor(status, message, errors = []) {
     super(message);
 
     this.status = status;
-    this.message = message;
+    this.errors = errors;
   }
 
   static NotFound(message) {
     throw new ErrorResponse(404, message);
+  }
+
+  static BadRequest(message, errors) {
+    throw new ErrorResponse(400, message, errors);
   }
 }
 

@@ -11,6 +11,7 @@ import { useError } from '../hooks/useError';
 import '../styles/MoviesList.scss';
 import { FullMovieModal } from './FullMovieModal';
 import useBoolean from '../hooks/useBoolean';
+import { RatingModal } from './RatingModal';
 
 const { Title } = Typography;
 
@@ -21,6 +22,7 @@ export const MoviesList = () => {
     { data: fullMovie, isLoading: fullMovieLoading, error: fullMovieError, isError: isFullMovieError }
   ] = movieAPI.useFetchFullMovieInfoMutation();
   const { value, setTrue, setFalse } = useBoolean(false);
+  const { value: isRatingModalOpen, setTrue: openRatingModal, setFalse: closeRatingModal } = useBoolean(false);
 
   const { triggerError } = useError(error || fullMovieError);
 
@@ -68,10 +70,18 @@ export const MoviesList = () => {
                 fetchFullMovieInfo={fetchFullMovieInfo}
                 isLoading={fullMovieLoading}
                 openModal={setTrue}
+                movieTitle={data.title}
+                openRatingModal={openRatingModal}
               />
             ))}
           </Masonry>
           <FullMovieModal fullMovie={fullMovie} closeModal={setFalse} visible={value} />
+          <RatingModal
+            notionId={data.notionId}
+            title={data.title}
+            visible={isRatingModalOpen}
+            closeModal={closeRatingModal}
+          />
         </>
       ) : (
         <MoviesEmpty />

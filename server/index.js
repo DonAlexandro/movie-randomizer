@@ -3,13 +3,21 @@ const cors = require('cors');
 const router = require('./router');
 const RedisService = require('./services/RedisService');
 const DatabaseService = require('./services/DatabaseService');
+const errorMiddleware = require('./middlewares/ErrorMiddleware');
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL
+  })
+);
 app.use(express.json());
 
 app.use(router);
+
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
 
