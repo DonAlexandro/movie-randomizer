@@ -1,27 +1,23 @@
-const MovieService = require('../services/MovieService');
-const SuccessResponse = require('../responses/SuccessResponse');
+const MovieStrategy = require('../core/strategies/MovieStrategy');
+const { getMovieStrategy, getFullMovieStrategy, markAsWatchedStrategy } = require('../core/strategies/movies');
 
 class MovieController {
-  async getMovie(req, res, next) {
-    try {
-      const movie = await MovieService.findOne();
-
-      SuccessResponse.call(res, movie);
-    } catch (error) {
-      next(error);
-    }
+  getMovie(req, res, next) {
+    const movieStrategy = new MovieStrategy(getMovieStrategy);
+    movieStrategy.apply(req, res, next);
   }
 
-  async getMovieFullInfo(req, res, next) {
-    try {
-      const movieIds = req.body;
+  getMovieFullInfo(req, res, next) {
+    const movieStrategy = new MovieStrategy(getFullMovieStrategy, 'Некоректні дані для пошуку кіна');
+    movieStrategy.apply(req, res, next);
+  }
 
-      const movieFullInfo = await MovieService.findFullMovieInfo(movieIds);
-
-      return SuccessResponse.call(res, movieFullInfo);
-    } catch (error) {
-      next(error);
-    }
+  watched(req, res, next) {
+    const movieStrategy = new MovieStrategy(
+      markAsWatchedStrategy,
+      'Сталася помилка при додаванні кіна до списку переглянутих'
+    );
+    movieStrategy.apply(req, res, next);
   }
 }
 

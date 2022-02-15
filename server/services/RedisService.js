@@ -8,8 +8,8 @@ class RedisService {
   async connect() {
     this.client = redis.createClient({
       socket: {
-        host: 'redis',
-        port: 6379
+        host: process.env.CACHE_HOST,
+        port: process.env.CACHE_PORT
       }
     });
 
@@ -35,6 +35,10 @@ class RedisService {
     }
 
     this.client.setEx(key, expiresIn, JSON.stringify(data));
+  }
+
+  deleteCache(key) {
+    this.client.del(key);
   }
 }
 

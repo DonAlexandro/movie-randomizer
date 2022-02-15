@@ -9,7 +9,7 @@ class ImdbService {
     const title = response.data.expression;
     const movies = response.data.results;
 
-    if (!movies.length) {
+    if (!movies || !movies.length) {
       return [];
     }
 

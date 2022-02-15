@@ -68,6 +68,41 @@ class MovieService {
 
     return newFullMovieFromDB;
   }
+
+  async markMovieAsWatched(watchedMovie) {
+    DatabaseService.deleteMovieById(watchedMovie.notionMovieId);
+    RedisService.deleteCache(watchedMovie.notionMovieId);
+
+    const titleWithRating = `${watchedMovie.title} (${watchedMovie.rating}/10)`;
+
+    await notion.blocks.children.append({
+      block_id: process.env.WATCHED_MOVIES_PAGE_ID,
+      children: [
+        {
+          object: 'block',
+          type: 'to_do',
+          to_do: {
+            text: [
+              {
+                type: 'text',
+                text: {
+                  content: titleWithRating
+                },
+                plain_text: titleWithRating
+              }
+            ],
+            checked: true
+          }
+        }
+      ]
+    });
+
+    await notion.blocks.delete({
+      block_id: watchedMovie.notionMovieId
+    });
+
+    return `Кіно "${watchedMovie.title}" було відмічене, як переглянуте`;
+  }
 }
 
 module.exports = new MovieService();

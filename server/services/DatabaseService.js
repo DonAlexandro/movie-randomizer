@@ -49,6 +49,10 @@ class DatabaseService {
 
     return null;
   }
+
+  async deleteMovieById(id) {
+    await Movie.query().delete().where('notion_movie_id', '=', id);
+  }
 }
 
 module.exports = new DatabaseService();

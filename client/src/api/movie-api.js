@@ -19,6 +19,19 @@ export const movieAPI = createApi({
         method: 'POST',
         body: ids
       })
+    }),
+    markAsWatched: build.mutation({
+      query: (watchedMovie) => ({
+        url: '/watched',
+        method: 'POST',
+        body: watchedMovie
+      }),
+      async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(movieAPI.util.updateQueryData('fetchMovie', undefined, () => null));
+        } catch {}
+      }
     })
   })
 });
