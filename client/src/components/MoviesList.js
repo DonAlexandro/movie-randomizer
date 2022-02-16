@@ -49,13 +49,13 @@ export const MoviesList = () => {
     <>
       <div className="movie-title">
         <Title className="movie-name">{data.title}</Title>
-        {data.movies.length && (
+        {data.movies?.length && (
           <Title level={5} className="movie-meta">
             Знайдено {data.movies.length} {pluralize(data.movies.length, ['фільм', 'фільми', 'фільмів'])}
           </Title>
         )}
       </div>
-      {data.movies.length ? (
+      {data.movies?.length ? (
         <>
           <Masonry
             breakpointCols={breakpointColumnsObj}

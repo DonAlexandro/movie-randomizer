@@ -19,11 +19,11 @@ class Genre extends Model {
     const Movie = require('./MovieModel');
 
     return {
-      genres: {
+      movies: {
         relation: Model.ManyToManyRelation,
         modelClass: Movie,
         join: {
-          from: 'genres.genre_id',
+          from: 'genres.id',
           through: {
             from: 'movies_genres.genre_id',
             to: 'movies_genres.movie_id'

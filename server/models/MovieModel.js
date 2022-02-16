@@ -1,6 +1,10 @@
 const { Model } = require('objection');
 
 class Movie extends Model {
+  static get idColumn() {
+    return 'imdb_movie_id';
+  }
+
   static get tableName() {
     return 'movies';
   }
@@ -33,7 +37,7 @@ class Movie extends Model {
             from: 'movies_genres.movie_id',
             to: 'movies_genres.genre_id'
           },
-          to: 'genres.genre_id'
+          to: 'genres.id'
         }
       }
     };

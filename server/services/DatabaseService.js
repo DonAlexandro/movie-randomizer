@@ -1,5 +1,7 @@
 const Knex = require('knex');
 const { Model } = require('objection');
+const Genre = require('../models/GenreModel');
+const MovieGenre = require('../models/MovieGenreModel');
 
 const Movie = require('../models/MovieModel');
 
@@ -25,16 +27,20 @@ class DatabaseService {
     const { genres, ...movie } = fullMovie;
 
     return Movie.transaction(async (trx) => {
-      const data = await Movie.query(trx)
-        .insertGraph({
+      const createdMovie = await Movie.query(trx)
+        .insertAndFetch({
           ...movie,
           rating: parseFloat(movie.rating),
-          notion_movie_id: notionMovieId,
-          genres
+          notion_movie_id: notionMovieId
         })
         .returning('*');
 
-      return data;
+      const createdGenres = await Genre.query(trx).insertAndFetch(genres).onConflict('name').merge().returning('*');
+
+      const movieGenres = createdGenres.map(({ id }) => ({ movie_id: createdMovie.imdb_movie_id, genre_id: id }));
+      await MovieGenre.query(trx).insert(movieGenres);
+
+      return { ...createdMovie, genres: createdGenres };
     });
   }
 
