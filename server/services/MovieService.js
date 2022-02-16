@@ -27,7 +27,7 @@ class MovieService {
       const cachedMovie = await RedisService.getCache(movie.id);
 
       if (cachedMovie) {
-        return cachedMovie;
+        return Object.assign(cachedMovie, { notionId: movie.id });
       }
 
       const movieDetails = await this.cacheMovieDetails(movie);

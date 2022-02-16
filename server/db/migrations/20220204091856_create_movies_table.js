@@ -10,8 +10,6 @@ exports.up = function (knex) {
     table.integer('year').unsigned().nullable();
     table.text('description').nullable();
     table.float('rating').nullable();
-
-    // table.foreign('imdb_movie_id').references('movie_id').inTable('movies_genres');
   });
 };
 

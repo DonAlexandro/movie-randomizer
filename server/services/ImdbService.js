@@ -24,7 +24,7 @@ class ImdbService {
       imdb_movie_id: id,
       title: movie.title,
       year: parseInt(movie.year),
-      description: movie.plotLocal || movie.plot,
+      description: movie.plotLocal || movie.plot || '',
       genres: movie.genreList.map(({ value }) => ({
         name: value
       })),

@@ -1,4 +1,4 @@
-import { Modal, Typography } from 'antd';
+import { Modal, Typography, Tag } from 'antd';
 import { StarFilled } from '@ant-design/icons';
 
 import '../styles/FullMovieModal.scss';
@@ -16,19 +16,41 @@ export const FullMovieModal = ({ fullMovie, visible, closeModal }) => {
       width={700}
       title={
         <Text strong={true}>
-          {fullMovie.title} ({fullMovie.year})
+          <a
+            href={process.env.REACT_APP_EXTARNAL_MOVIES_SITE + encodeURIComponent(fullMovie.title)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {fullMovie.title} ({fullMovie.year})
+          </a>
         </Text>
       }
       visible={visible}
       footer={
-        <Text>
-          <StarFilled /> {fullMovie.rating}
-        </Text>
+        <>
+          <div className="categories">
+            <Text strong className="category-label">
+              Жанри:
+            </Text>
+            {fullMovie.genres.map((genre) => (
+              <Tag key={genre.id}>{genre.name}</Tag>
+            ))}
+          </div>
+          <Text className="rating">
+            <StarFilled /> {fullMovie.rating}
+          </Text>
+        </>
       }
       centered={true}
       onCancel={closeModal}
     >
-      {fullMovie.description}
+      {fullMovie.description ? (
+        <Text>{fullMovie.description}</Text>
+      ) : (
+        <Text italic type="secondary">
+          Опису відсутній
+        </Text>
+      )}
     </Modal>
   );
 };
