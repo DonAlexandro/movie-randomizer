@@ -1,8 +1,16 @@
-version: "3"
+version: '3'
 services:
   frontend:
     build:
       context: ./client
+      args:
+        NODE_ENV: production
+    environment:
+      - NODE_ENV=production
+
+  bot:
+    build:
+      context: ./bot
       args:
         NODE_ENV: production
     environment:

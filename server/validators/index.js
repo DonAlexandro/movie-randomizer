@@ -25,6 +25,7 @@ const watchedValidator = [
     .notEmpty()
     .withMessage('Введи рейтинг'),
   body('title')
+    .optional()
     .notEmpty()
     .withMessage('Чому назва фільму пуста?')
     .isAlphanumeric('ru-RU', { ignore: ' ' })
