@@ -70,6 +70,11 @@ class MovieService {
   }
 
   async markMovieAsWatched(watchedMovie) {
+    if (!watchedMovie.title) {
+      const cachedMovieToBeDeleted = await RedisService.getCache(watchedMovie.notionMovieId);
+      watchedMovie.title = cachedMovieToBeDeleted.title;
+    }
+
     DatabaseService.deleteMovieById(watchedMovie.notionMovieId);
     RedisService.deleteCache(watchedMovie.notionMovieId);
 
@@ -101,7 +106,7 @@ class MovieService {
       block_id: watchedMovie.notionMovieId
     });
 
-    return `Кіно "${watchedMovie.title}" було відмічене, як переглянуте`;
+    return `Кіно "${watchedMovie.title}" було оцінено і відмічено, як переглянуте`;
   }
 }
 

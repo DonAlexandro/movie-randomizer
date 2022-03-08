@@ -6,6 +6,6 @@ const router = Router();
 
 router.get('/movie', MovieController.getMovie);
 router.post('/fullMovieInfo', idPairValidator, MovieController.getMovieFullInfo);
-router.post('/watched', watchedValidator, MovieController.watched);
+router.post('/watched', watchedValidator, (req, res, next) => MovieController.watched(req, res, next));
 
 module.exports = router;

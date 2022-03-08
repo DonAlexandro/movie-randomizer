@@ -10,6 +10,16 @@ services:
     env_file:
       - ./client/.env
 
+  bot:
+    build: ./bot
+    ports:
+      - 3001:3001
+    volumes:
+      - ./bot:/bot
+    container_name: 'movie-randomizer_bot'
+    env_file:
+      - ./bot/.env
+
   backend:
     build: ./server
     ports:

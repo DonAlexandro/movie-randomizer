@@ -1,21 +1,37 @@
 dev-build() {
-    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+  docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
 }
 
-dev-start() {
-    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+dev-start-common() {
+  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d backend redis postgres $1
+}
+
+dev-start-bot() {
+  dev-start-common bot
+}
+
+dev-start-ui() {
+  dev-start-common frontend
 }
 
 dev-down() {
-    docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+  docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 }
 
 prod-build() {
-    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+  docker-compose -f docker-compose.yml -f docker-compose.prod.yml up build
 }
 
-prod-start() {
-    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+prod-start-common() {
+  docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d backend redis postgres $1
+}
+
+prod-start-bot() {
+  prod-start-common bot
+}
+
+prod-start-ui() {
+  prod-start-common frontend
 }
 
 prod-down() {
