@@ -1,7 +1,4 @@
 const { replies } = require('../utils/constants');
-const ApiFacade = require('../core/facades/api');
-const MarkupBuilder = require('../core/builders/MarkupBuilder');
-const TextBuilder = require('../core/builders/TextBuilder');
 const BotStrategy = require('../strategies/BotStrategy');
 const SearchTemplate = require('../strategies/templates/SearchTemplate');
 const DoneTemplate = require('../strategies/templates/DoneTemplate');
