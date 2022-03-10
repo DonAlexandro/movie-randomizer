@@ -13,11 +13,10 @@ bot.onText(commands.search.regex, (msg) => botController.search(msg));
 
 bot.on('callback_query', (msg) => {
   try {
-    const chatId = msg.message.chat.id;
     const data = msg.data;
     const { method, ...ids } = callbackDataParser(data);
 
-    botController[method](chatId, ids);
+    botController[method](msg, ids);
   } catch (error) {
     console.log(error);
   }
