@@ -5,6 +5,9 @@ services:
       context: ./client
       args:
         NODE_ENV: development
+    volumes:
+      - ./client:/client
+      - /client/node_modules
     environment:
       - NODE_ENV=development
     command: npm start
@@ -14,6 +17,9 @@ services:
       context: ./bot
       args:
         NODE_ENV: development
+    volumes:
+      - ./bot:/bot
+      - /bot/node_modules
     environment:
       - NODE_ENV=development
     command: npm run dev
@@ -23,6 +29,9 @@ services:
       context: ./server
       args:
         NODE_ENV: development
+    volumes:
+      - ./server:/server
+      - /server/node_modules
     environment:
       - NODE_ENV=development
     command: npm run dev

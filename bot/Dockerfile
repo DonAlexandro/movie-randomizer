@@ -1,13 +1,13 @@
 FROM node:16
 WORKDIR /bot
 
-COPY package.json ./
+COPY package.json .
+
 ARG NODE_ENV
-RUN if [ "$NODE_ENV" = "development" ]; then \
-      npm i \
-    else \
-      npm i --only=production; \
-    fi
+RUN if [ "$NODE_ENV" = "development" ]; \
+        then npm install; \
+        else npm install --only=production; \
+        fi
 
 COPY . ./
 CMD ["node", "index.js"]

@@ -7,7 +7,7 @@ class MovieStrategy {
     this.validationError = validationError;
   }
 
-  apply(req, res, next) {
+  async apply(req, res, next) {
     try {
       if (this.validationError) {
         const errors = validationResult(req);
@@ -17,7 +17,7 @@ class MovieStrategy {
         }
       }
 
-      this.strategy(req, res);
+      await this.strategy(req, res);
     } catch (error) {
       next(error);
     }
