@@ -21,7 +21,7 @@ class BotController {
     const searchStrategy = () => searchTemplate.search(telegramMessage);
     const botStrategy = new BotStrategy(searchStrategy, this.bot);
 
-    botStrategy.apply();
+    botStrategy.apply(telegramMessage.chat.id);
   }
 
   async details(telegramMessage, ids) {
@@ -29,7 +29,7 @@ class BotController {
     const detailsStrategy = () => detailsTemplate.details(telegramMessage, ids);
     const botStrategy = new BotStrategy(detailsStrategy, this.bot);
 
-    botStrategy.apply();
+    botStrategy.apply(telegramMessage.message.chat.id);
   }
 
   async done(telegramMessage, movieData) {
@@ -37,7 +37,7 @@ class BotController {
     const doneStrategy = () => doneTemplate.done(telegramMessage, movieData);
     const botStrategy = new BotStrategy(doneStrategy, this.bot);
 
-    botStrategy.apply();
+    botStrategy.apply(telegramMessage.message.chat.id);
   }
 }
 

@@ -19,7 +19,7 @@ dev-down() {
 }
 
 prod-build() {
-  docker-compose -f docker-compose.yml -f docker-compose.prod.yml up build
+  docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 }
 
 prod-start-common() {

@@ -4,33 +4,32 @@ services:
     build: ./client
     ports:
       - 3000:3000
-    volumes:
-      - ./client:/client
     container_name: 'movie-randomizer_frontend'
     env_file:
       - ./client/.env
+    depends_on:
+      - backend
 
   bot:
     build: ./bot
     ports:
       - 3001:3001
-    volumes:
-      - ./bot:/bot
     container_name: 'movie-randomizer_bot'
     env_file:
       - ./bot/.env
+    depends_on:
+      - backend
 
   backend:
     build: ./server
     ports:
       - 5000:5000
-    volumes:
-      - ./server:/server
     container_name: 'movie-randomizer_backend'
     env_file:
       - ./server/.env
     depends_on:
       - redis
+      - postgres
 
   redis:
     image: redis
