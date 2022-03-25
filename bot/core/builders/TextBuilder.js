@@ -3,6 +3,13 @@ class TextBuilder {
     this.text = [];
   }
 
+  addPosterDisclaimer() {
+    this.text.push(
+      `<i>На жаль, постер цього фільму занадто великого розміру, тому Telegram не може його відобразити</i>\n`
+    );
+    return this;
+  }
+
   addTitle(title) {
     this.text.push(`<b>${title}</b>`);
     return this;

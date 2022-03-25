@@ -71,13 +71,21 @@ class SearchTemplate {
         .addDoneButton(doneCallbackData)
         .addWatchButton(movie.title)
         .build();
-      const caption = TextBuilder.addTitle(movie.title).addDescription(movie.description).build();
 
-      await this.bot.sendPhoto(this.chatId, movie.image, {
-        caption,
-        parse_mode: 'HTML',
-        reply_markup: markup
-      });
+      try {
+        const caption = TextBuilder.addTitle(movie.title).addDescription(movie.description).build();
+        await this.bot.sendPhoto(this.chatId, movie.image, {
+          caption,
+          parse_mode: 'HTML',
+          reply_markup: markup
+        });
+      } catch (error) {
+        const caption = TextBuilder.addPosterDisclaimer()
+          .addTitle(movie.title)
+          .addDescription(movie.description)
+          .build();
+        this.bot.sendMessage(this.chatId, caption, { reply_markup: markup, parse_mode: 'HTML' });
+      }
     }
   }
 }
