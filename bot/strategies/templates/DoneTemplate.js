@@ -43,7 +43,7 @@ class DoneTemplate {
   }
 
   transformReply(telegramMessage) {
-    let rating = telegramMessage.text.replace(/[^0-9]/g, '');
+    let rating = telegramMessage.text.replace(/[^0-9\.]/g, '');
     rating = +rating;
 
     return rating;
