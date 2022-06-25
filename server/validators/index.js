@@ -20,7 +20,7 @@ const watchedValidator = [
     .notEmpty()
     .withMessage('Notion movie ID cannot be empty'),
   body('rating')
-    .isInt({ min: 1, max: 10 })
+    .isFloat({ min: 1, max: 10 })
     .withMessage('Рейтинг повинен бути числом від 1 до 10')
     .notEmpty()
     .withMessage('Введи рейтинг'),
