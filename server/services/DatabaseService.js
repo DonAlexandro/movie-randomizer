@@ -35,17 +35,15 @@ class DatabaseService {
   }
 
   async findMovieById(id) {
-    return Movie.transaction(async (trx) => {
-      const movie = await Movie.query(trx).findOne({ imdb_movie_id: id });
+    const movie = await Movie.query().findOne({ imdb_movie_id: id });
 
-      if (movie) {
-        const genres = await movie.transacting(trx).$relatedQuery('genres');
+    if (movie) {
+      const genres = await movie.$relatedQuery('genres');
 
-        return Object.assign(movie, { genres });
-      }
+      return Object.assign(movie, { genres });
+    }
 
-      return null;
-    });
+    return null;
   }
 
   async deleteMovieById(id) {
